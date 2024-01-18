@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memesoftheday-deployment
+  labels:
+    app: memesoftheday
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: memesoftheday 
+  template:
+    metadata:
+      labels:
+        app: memesoftheday
+    spec:
+      containers:
+      - name: memesostheday-container
+        image: harisheoran/memesoftheday-image:main
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: IfNotPresent
+
