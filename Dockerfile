@@ -17,7 +17,7 @@ FROM scratch
 
 # Copy "main" binary into current dir
 COPY --from=build /app/main .
-COPY --from=build /app/static ./static
+COPY . ./static
 
 EXPOSE 3000
 
