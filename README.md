@@ -1,8 +1,6 @@
+![](./img/blogmain.png)
 
-
-DevOps Workshops 1
-
-You should try the workshop on your own first.
+Here are project requirements.
 <details>
 <summary> Workshop Requirements
 </summary>
@@ -17,7 +15,7 @@ You should try the workshop on your own first.
 
 3. **Continuous Integration (CI):**
    - Choose a CI tool (Jenkins, GitLab CI, or GitHub Actions).
-   - Configure CI pipeline to trigger on each commit.
+   - Configure the CI pipeline to trigger on each commit.
    - Include steps to:
       - Build your web application.
       - Run automated tests (if applicable).
@@ -40,7 +38,7 @@ Follow these steps, explaining your choices and demonstrating the flow. This ass
 
 
 ## First build a simple Web server 
-You can choose the language of your choice for this task,   I am using Go language.
+You can choose the language of your choice for this task,   I am using the Go language.
 - Create a ***main.go*** file.
 
 ```
@@ -60,23 +58,23 @@ import (
 )
 
 func main() {
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/", fs)
+  fs := http.FileServer(http.Dir("./static"))
+  http.Handle("/", fs)
 
-	port := 3000
-	fmt.Printf("Server is listening on 3000")
-	err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
-	if err != nil {
-		fmt.Printf("Error: ", err)
-	}
+  port := 3000
+  fmt.Printf("Server is listening on 3000")
+  err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+  if err != nil {
+    fmt.Printf("Error: ", err)
+  }
 }
 ```
 
 > This server is just serving a ***index.html***  and ***main.js*** file.
 
 - Create a ***static*** directory for html and js files.
-	- Here is [index.html](https://github.com/harisheoran/WebServer-Docker-CI-CD-k8s/blob/main/static/index.html)
-	- Here is [main.js](https://github.com/harisheoran/WebServer-Docker-CI-CD-k8s/blob/main/static/main.js)
+  - Here is [index.html](https://github.com/harisheoran/WebServer-Docker-CI-CD-k8s/blob/main/static/index.html)
+  - Here is [main.js](https://github.com/harisheoran/WebServer-Docker-CI-CD-k8s/blob/main/static/main.js)
 ```
 mkdir static
 
@@ -92,7 +90,7 @@ go run main.go
 ![](./img/memesoftheday.png)
 
 ## Containerize your application using Docker
-We use docker to containerize our application, lets write the ***Dockerfile***.
+We use docker to containerize our application, let's write the ***Dockerfile***.
 
 We are going to use the Multistage Docker build or Distroless Images.
 
@@ -106,7 +104,7 @@ WORKDIR /app
 COPY go.mod ./
 RUN go mod download
 
-# Copy the necessary files of application
+# Copy the necessary files of the application
 COPY main.go .
 COPY static ./static
 
@@ -136,26 +134,26 @@ docker build -t memesoftheday-image .
 docker container run -d -p 4000:3000 --name memes-container memesoftheday-image
 ```
 ## Version Control
-Use ***Git*** to control the version of source code and push to the Github.
+Use ***Git*** to control the version of source code and push it to GitHub.
 
 ### Continuous Integration (CI)
-If you are beginner to CI, so understand the problem first 
-- The Image of application is present on your machine and let say we are deploying our application on AWS or Azure -
-	- we have to manually build and run the image everytime we made changes to verify it.
-	- and have to manually push the image to AWS or Azure.
-	
-> We don't like manual things, we are Engineers, lets Automate it using CI pipeline.
+If you are a beginner to CI, so understand the problem first 
+- The Image of the application is present on your machine and let's say we are deploying our application on AWS or Azure -
+  - we have to manually build and run the image every time we make changes to verify it.
+  - and have to manually push the image to AWS or Azure.
+  
+> We don't like manual things, we are Engineers, Let's Automate it using the CI pipeline.
 
-#### Whats the solution?
-We build a Ci pipeline which uses our ***Dockerfile*** from repository to build the image and push to a registry.
-- so, you don't have to worry about building image each time you made changes.
-- and it uses CI server compute to build the image.
+#### What's the solution?
+We build a Ci pipeline which uses our ***Dockerfile*** from the repository to build the image and push it to a registry.
+- so, you don't have to worry about building the image each time you make changes.
+- and it uses CI server computing to build the image.
 
 There are so many CI tools like Jenkins, Github Actions and many more.
-I think Github Actions is right choice for our requirements.
+I think GitHub Actions is the right choice for our requirements.
 
-#### Understand the workflow of CI pipeline
-- Checkout the Github repository.
+#### Understand the workflow of the CI pipeline
+- Check out the Github repository.
 - Build the docker image using Dockerfile.
 - Login to Docker Hub.
 - Push the image to Docker Hub.
@@ -169,7 +167,7 @@ Read about using Github Actions
 mkdir -p .github/workflows && cd .github/workflows
 ```
 
-It triggers the build on code push in main branch.
+It triggers the build-on code push in main branch.
 
 ```
 name: Create and build docker image to Docker Hub
@@ -215,13 +213,13 @@ jobs:
 
 
 ## Continuous Deployment (CD)
-We want to reflect the changes we made in our code into our applications which we deploy on Kubernetes, comes into picture the CD.
+We want to reflect the changes we made in our code into the applications which we deploy on Kubernetes, which comes into the picture of the CD.
 
-We are going to use the ***ArgoCD***, so install the ArgoCD as operator on our k8s cluster.
+We are going to use the ***ArgoCD***, so install the ArgoCD as an operator on our k8s cluster.
 
 - Create Kubernetes Cluster
-	 We use Minikuebe as local k8s cluster
-	[Install Minikube](https://minikube.sigs.k8s.io/docs/start/)
+   We use Minikuebe as a local k8s cluster
+  [Install Minikube](https://minikube.sigs.k8s.io/docs/start/)
 
 - Start Minikube cluster
 ```
@@ -229,11 +227,11 @@ minikube start --driver=docker
 ```
 
 - [Install Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-	
+  
 - [Install ArgoCD operator](https://operatorhub.io/operator/argocd-operator)
 
 -  Create a new Argo CD cluster with the default configuration using this manifest file.
-	- Create a new directory for our manifest file
+  - Create a new directory for our manifest file
 ```
 mkdir k8s
 touch argocd.yml
@@ -254,7 +252,7 @@ ArgoCD is created as a service, you can verify using
 kubectl get svc
 ```
 
-Now if you see that it is created as ***ClusterIP***, which can access only whithin cluster,
+Now if you see that it is created as ***ClusterIP***, which can access only within cluster,
 so, to access ArgoCD in our browser we have to change its type to ***NodePort*** .
 ```
 kubectl edit svc example-argocd-server
@@ -272,7 +270,7 @@ example-argocd-server                 NodePort    10.105.171.247   <none>       
 
 ```
 
-- So, to access the argocd on browser using nodeport, we need the IP of cluster
+- So, to access the argocd on the browser using node port, we need the IP of the cluster
 ```
 minikube ip
 ```
@@ -296,7 +294,7 @@ kubectl edit secrets example-argocd-cluster
 Copy the password
 ![](./img/argocd_secret.png)
 
-- Minikube uses simple encryption algorithm *base64*
+- Minikube uses a simple encryption algorithm *base64*
 ```
 echo dkxpeEEzeWVnYk53NEZrU1VtdW4xUlBhOHBoTWNyN0k= | base64 -d
 ```
@@ -352,7 +350,7 @@ spec:
 
 ```
 
-- Create service.yml in same directory
+- Create service.yml in the same directory
 ```
 # This file describes a Kubernetes Service, which exposes pods to the network.
 
@@ -394,7 +392,7 @@ spec:
 ![](./img/argo_main.png)
 
 #### We successfully deployed the application pods.
-You can check the pods using conmand
+You can check the pods using the command
 
 ```
 kubectl get pods -o wide
@@ -409,14 +407,14 @@ kubectl get svc
 
 ![](./img/memes_svc.png)
 
-visit your minikube ip with nodeport, in my case it is - http://192.168.49.2:30007/
+visit your minikube ip with nodeport, in my case, it is - http://192.168.49.2:30007/
 
 ## Monitoring 
 To monitor our k8s cluster, we use Prometheus and  Grafana.
 
 - Install Prometheus using Helm charts
 ```
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add Prometheus-community https://prometheus-community.github.io/helm-charts
 ```
 
 ```
@@ -426,12 +424,12 @@ helm repo update
 ```
 helm install prometheus prometheus-community/prometheus
 ```
- Now, it will create prometheus pod and service but it is available as Cluster IP, to access the Prometheus, we need to change it service to NodePort.
+ Now, it will create a prometheus pod and service but it is available as Cluster IP, to access the Prometheus, we need to change it service to NodePort.
 ```
 kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
 ```
 
-- Check it port using command
+- Check it port using the command
 ```
 kubectl get svc
 ```
