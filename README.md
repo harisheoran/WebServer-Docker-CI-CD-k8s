@@ -89,7 +89,7 @@ go run main.go
 ```
 
 - Go to 127.0.0.1:3000
-![](./memesoftheday.png)
+![](./img/memesoftheday.png)
 
 ## Containerize your application using Docker
 We use docker to containerize our application, lets write the ***Dockerfile***.
@@ -211,7 +211,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 ```
-![](./actions.png)
+![](./img/actions.png)
 
 
 ## Continuous Deployment (CD)
@@ -261,7 +261,7 @@ kubectl edit svc example-argocd-server
 ```
 
 change the type from *Cluster IP* to *NodePort*
-![](./argo_nodeport.png)
+![](./img/argo_nodeport.png)
 
 - Check the service again, and check its port - 31080
 ```
@@ -281,7 +281,7 @@ minikube ip
 
  In my case, it is *192.168.49.2:31080*
 
-![](./argocd_login.png)
+![](./img/argocd_login.png)
 
 - Username is *admin*
 - Password is store as secret
@@ -294,7 +294,7 @@ you'll get *example-argocd-cluster*, password is stored in this secret.
 kubectl edit secrets example-argocd-cluster
 ```
 Copy the password
-![](./argocd_secret.png)
+![](./img/argocd_secret.png)
 
 - Minikube uses simple encryption algorithm *base64*
 ```
@@ -387,11 +387,11 @@ spec:
 ```
 
 - and create a new app and fill the details accordingly to your repo in the below format.
-![](./argo01.png)
-![](./argo02.png)
+![](./img/argo01.png)
+![](./img/argo02.png)
 
 - Wait for it, will create the pods of our application defined in our deployment.
-![](argo_main.png)
+![](./img/argo_main.png)
 
 #### We successfully deployed the application pods.
 You can check the pods using conmand
@@ -400,14 +400,14 @@ You can check the pods using conmand
 kubectl get pods -o wide
 ```
 
-![](./pods.png)
+![](./img/pods.png)
 
 - Check the port of pods
 ```
 kubectl get svc
 ```
 
-![](./memes_svc.png)
+![](./img/memes_svc.png)
 
 visit your minikube ip with nodeport, in my case it is - http://192.168.49.2:30007/
 
@@ -436,11 +436,11 @@ kubectl expose service prometheus-server --type=NodePort --target-port=9090 --na
 kubectl get svc
 ```
 
-![](./prom.png)
+![](./img/prom.png)
 
 Visit this port in browser with minikube ip
 
-![](./promui.png)
+![](./img/promui.png)
 
 To view these logs in graph form, we use Grafana
 
@@ -468,19 +468,19 @@ kubectl get svc
 ```
 
 - Click on to create your first Data source.
-![](./grafana01.png)
+![](./img/grafana01.png)
 
 
 - Add Data source to Prometheus
-![](./grafana02.png)
+![](./img/grafana02.png)
 
 - Enter the Prometheus IP address
-![](./grafana03.png)
+![](./img/grafana03.png)
 
 - Go back to Home and click on Create DashBoard > Import DashBoard > Enter ***3662*** ID to import the template of Dashboard.
-![](./grafana04.png)
+![](./img/grafana04.png)
 
 - Our Grafana Dashboard
-![](./grafana05.png)
+![](./img/grafana05.png)
 
 ### That's it, our project is done, if you have any questions about this project or if stuck at any point, feel free to ping me.
