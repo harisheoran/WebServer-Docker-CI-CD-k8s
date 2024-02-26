@@ -2,7 +2,7 @@
 
 Here are project requirements.
 <details>
-<summary> Workshop Requirements
+<summary> Project Requirements
 </summary>
 <br>
 
