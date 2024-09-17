@@ -1,0 +1,66 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: motd-ns
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: motd-deployment
+  namespace: motd-ns
+  labels:
+    deploy: motd-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      webapp: motd-app 
+  template:
+    metadata:
+      labels:
+        webapp: motd-app
+    spec:
+      containers:
+        - name: motd-container
+          image: harisheoran/memesoftheday-image:main
+          ports:
+          - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: motd-svc
+  namespace: motd-ns
+  labels:
+    svc: motd-svc
+spec:
+  type: NodePort
+  selector:
+    webapp: motd-app
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30007
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: motd-ns
+  name: motd-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: motd-svc
+              port:
+                number: 3000
