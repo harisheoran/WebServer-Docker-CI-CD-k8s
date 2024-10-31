@@ -1,6 +1,6 @@
 ![](./img/blogmain.png)
 
-Here are project requirements.
+Here are the project requirements.
 <details>
 <summary> Project Requirements
 </summary>
